@@ -1,20 +1,15 @@
 uint8_t neighbors[6];
-uint8_t colors[11][3] = {{0, 0, 0},    // Clear
-                         {0, 0, 0}, //empty color
+uint8_t colors[9][3] = {{0, 0, 0},    // Clear
                           {255,0,0},   // Red
                          {0,0,255},    // Blue
-                         {128, 0, 128}, // rando
-                         {128, 0, 128}, // Purple
-                         {255,255,255},  // Game Over Color
                          {255,255,0},  // Yellow
-                         {0, 0, 0}, // Reset color
+                         {128, 0, 128}, // Purple
                          {255, 165, 0}, // Orange
-                         {0, 255, 0} // Green
-                         }; 
-
-enum blinkState {CLEAR, GOAL, RED, BLUE, SUCCESS, PURPLE, GAMEOVER, YELLOW, RESET, ORANGE, GREEN, FAILURE}; 
-
-uint8_t myColor = 3;
+                         {0, 255, 0}, // Green
+                         {255,255,255},  // Game Over Color
+                         {0, 0, 0} // Reset color
+                         };
+uint8_t myColor = 1;
 
 uint8_t propagationTime = 2000;
 
@@ -42,7 +37,8 @@ void stopPropagating() {
 }
 
 void resetGame() {
-  setState(8);//RESET);
+  setState(10);//RESET);
+  setColor(colors[5]);
   setTimerCallback(returnToNeutral, 3000);
 }
 

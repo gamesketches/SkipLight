@@ -12,16 +12,31 @@ uint8_t colors[11][3] = {{0, 0, 0},    // Clear
                          {0, 255, 0} // Green
                          }; 
 
-enum blinkState {CLEAR, GOAL, RED, BLUE, SUCCESS, PURPLE, GAMEOVER, YELLOW, RESET, ORANGE, GREEN, FAILURE}; 
+//enum blinkState {CLEAR, GOAL, RED, BLUE, SUCCESS, PURPLE, GAMEOVER, YELLOW, RESET, ORANGE, GREEN, FAILURE}; 
+/* Clear = 0
+ *  Goal = 1
+ *  Red = 2
+ *  Blue = 3
+ *  Success = 4
+ *  Purple = 5
+ *  GameOver = 6
+ *  Yellow = 7
+ *  Reset = 8
+ *  Orange = 9
+ *  Green = 10
+ *  Failure = 11
+ */
+//blinkState storedColor;
+//blinkState targetColor;
 
-blinkState storedColor;
-blinkState targetColor;
+uint8_t storedColor;
+uint8_t targetColor;
 
 bool blinking;
 bool blinkState;
 uint8_t blinkTimer = 0;
 
-uint8_t propagationTime = 2000;
+uint16_t propagationTime = 2000;
 
 void setMyColor(uint8_t color);
 void becomeClear();
@@ -33,11 +48,11 @@ void setup() {
   // put your setup code here, to run once:
   setLongButtonCallback(becomeGoal, 2000);
   setMicOff();
-  setState(CLEAR);
-  setColor(colors[CLEAR]);
+  setState(0); // Clear
+  setColor(colors[0]); // Clear
   blinkState = true;
   blinking = false;
-  storedColor = CLEAR;
+  storedColor = 0; // Clear
 }
 
 void loop() {
@@ -46,13 +61,12 @@ void loop() {
      if(blinkTimer > 600) {
        if(blinkState) {
           blinkState = false;
-          setColor(colors[CLEAR]);
+          setColor(colors[0]);//CLEAR]);
        }
        else {
           blinkState = true;
           setColor(colors[targetColor]);
        }
-       setColor(colors[BLUE]);
        blinkTimer = 0;
      }
   }
@@ -60,24 +74,24 @@ void loop() {
   getNeighborStates(neighbors);
 
   for(uint8_t i = 0; i < 6; i++) {
-      if(neighbors[i] == RESET) {
-        setColor(colors[RESET]);
-        setState(RESET);
+      if(neighbors[i] == 8){//RESET) {
+        setColor(colors[8]);//RESET]);
+        setState(8);//RESET);
         setTimerCallback(becomeClear, 5000);
       }
-      else if(neighbors[i] == GAMEOVER) {
-        setColor(colors[GAMEOVER]);
-        setState(GAMEOVER);
+      else if(neighbors[i] == 6){//GAMEOVER) {
+        setColor(colors[6]);//GAMEOVER]);
+        setState(6);//GAMEOVER);
       }
       else if(isPrimaryColor(neighbors[i])) {
-        if(getState() == GOAL) {
-          if(storedColor == CLEAR) {
+        if(getState() == 1){//GOAL) {
+          if(storedColor == 0){//CLEAR) {
             setStoredColor(neighbors[i]);
             setTimerCallback(unStoreColor, propagationTime);
           }
           else if(storedColor + neighbors[i] == targetColor) {
-             setState(SUCCESS);
-             setColor((uint8_t*)storedColor + neighbors[i]);
+             setState(4);//SUCCESS);
+             setColor(colors[2]);//colors[storedColor + neighbors[i]]);
              blinking = true;
               }
           }
@@ -97,54 +111,54 @@ void setMyColor(uint8_t color) {
 }
 
 void becomeClear() {
-  setColor(colors[CLEAR]);
-  setState(CLEAR);
+  setColor(colors[0]);//CLEAR]);
+  setState(0);//CLEAR);
 }
 
 bool isPrimaryColor(uint8_t color) {
-  if(color == YELLOW || color == RED || color == BLUE) {
+  if(color == 2 || color == 3 || color == 5) {
       return true;
   }
   return false;
 }
 
 void becomeGoal() {
-  if(getState() != GOAL && getState() != SUCCESS) {
+  if(getState() != 1 && getState() != 4){//GOAL && getState() != SUCCESS) {
     uint32_t diceRoll = getTimer() % 3;
     switch(diceRoll) {
       case 0: 
-        targetColor = PURPLE;
+        targetColor = 5;//PURPLE;
         break;
       case 1:
-        targetColor = ORANGE;
+        targetColor = 9;//ORANGE;
         break;
       case 2:
-        targetColor = GREEN;
+        targetColor = 10;//GREEN;
         break;
   };
 
   setColor(colors[targetColor]);
-  setState(GOAL);
+  setState(1);//GOAL);
   }
 }
 
 void unStoreColor() {
-  storedColor = CLEAR;
+  storedColor = 0;//CLEAR;
 }
 
 void setStoredColor(uint8_t state) {
   switch(state) {
     case 2: 
-      storedColor = RED;
+      storedColor = 2;//RED;
       break;
     case 3:
-      storedColor = BLUE;
+      storedColor = 3;//BLUE;
       break;
     case 7:
-      storedColor = YELLOW;
+      storedColor = 7;//YELLOW;
       break;
     default:
-      storedColor = CLEAR;
+      storedColor = 0;//CLEAR;
       break;
   }
 }
