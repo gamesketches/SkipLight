@@ -7,7 +7,7 @@ uint8_t colors[9][3] = {{0, 0, 0},    // Clear
                          {255, 165, 0}, // Orange
                          {0, 255, 0}, // Green
                          {255,255,255},  // Goal Color
-                         {255, 255, 255} // Success color
+                         {255, 105, 180} // Reset color
                          }; 
 
 /* Clear = 0
@@ -67,7 +67,7 @@ void loop() {
           if(neighbors[i] == 10){//RESET) {
             setState(10);//RESET);
             setTimerCallback(becomeClear, 5000);
-            setColor(colors[7]);
+            setColor(colors[8]);
             break;
           }
           else if(neighbors[i] == 9){//GAMEOVER) {
@@ -83,8 +83,8 @@ void loop() {
                   }
                   else if(neededColor(neighbors[i])) {
                      setState(8);//SUCCESS);
-                     setColor(colors[8]);
-                     blinkLight();
+                     setColor(colors[7]);
+                     //blinkLight();
                   }
                   else {
                     setColor(colors[targetColor]);
@@ -121,10 +121,13 @@ void becomeClear() {
   setColor(colors[0]);//CLEAR]);
   setState(0);//CLEAR);
   blinking = false;
+  blinkState = true;
+  storedColor = 0; // Clear
+  intendedState = 0;
 }
 
 void becomeGoal() {
-   blinking = true;
+   //blinking = true;
   if(getState() != 7 && getState() != 8){//GOAL && getState() != SUCCESS) {
     uint32_t diceRoll = getTimer() % 3;
     targetColor = diceRoll + 4;
@@ -169,17 +172,18 @@ bool neededColor(uint8_t state) {
 }
 
 void blinkLight() {
-  if(blinkState) {
-    blinkState = false;
-    setColor(colors[0]);
-  }
-  else {
-    blinkState = true;
-    setColor(colors[targetColor]);
-  }
-
-  if(blinking) {
-    setTimerCallback(blinkLight, 600);
-  }
+//  if(blinkState) {
+//    blinkState = false;
+//    setColor(colors[0]);
+//  }
+//  else {
+//    blinkState = true;
+//    setColor(colors[targetColor]);
+//  }
+//
+//  if(blinking) {
+//    setTimerCallback(blinkLight, 600);
+//  }
+    setColor(colors[8]);
 }
 
