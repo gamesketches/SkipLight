@@ -6,15 +6,15 @@ uint8_t colors[11][3] = {{0, 0, 0},    // Clear
                          {128, 0, 128}, // rando
                          {128, 0, 128}, // Purple
                          {255,255,255},  // Game Over Color
-                         {0,255,0},  // Yellow
+                         {255,255,0},  // Yellow
                          {0, 0, 0}, // Reset color
                          {255, 165, 0}, // Orange
-                         {255, 255, 0} // Green
+                         {0, 255, 0} // Green
                          }; 
 
-enum blinkState {CLEAR, GOAL, RED, BLUE, SUCCESS, PURPLE, GAMEOVER, GREEN, RESET, ORANGE, YELLOW, FAILURE};
+enum blinkState {CLEAR, GOAL, RED, BLUE, SUCCESS, PURPLE, GAMEOVER, YELLOW, RESET, ORANGE, GREEN, FAILURE}; 
 
-blinkState myColor = GREEN;
+blinkState myColor = YELLOW;
 
 uint8_t propagationTime = 2000;
 
