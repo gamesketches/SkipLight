@@ -58,29 +58,19 @@ void setup() {
 }
 
 void loop() {
-  if (timestamp == 0){
+  if (timestamp == 0 && getState() != 10){
       getNeighborStates(neighbors);
       
       bool allNeighborsClear = true;
     
-    //  if (intendedState = 0){
-    //    setColor(colors[4]);
-    //  } else if (intendedState > 0 && intendedState < 4){
-    //    setColor(colors[5]);
-    //  } else if (intendedState == NULL){
-    //    setColor(colors[6]);
-    //  } else {
-    //    setColor(colors[7]);
-    //  }
-    
       for(uint8_t i = 0; i < 6; i++) {
           if(neighbors[i] == 10){//RESET) {
-            //setColor(colors[10]);//RESET]);
             setState(10);//RESET);
             setTimerCallback(becomeClear, 5000);
+            setColor(colors[7]);
+            break;
           }
           else if(neighbors[i] == 9){//GAMEOVER) {
-            //setColor(colors[9]);//GAMEOVER]);
             setState(9);//GAMEOVER);
           }
           else if(getState() < 8 && neighbors[i] > 0 && neighbors[i] < 4) {
