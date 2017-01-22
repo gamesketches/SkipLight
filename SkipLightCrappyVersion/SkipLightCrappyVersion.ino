@@ -56,7 +56,7 @@ void loop() {
 
   for(uint8_t i = 0; i < 6; i++) {
       if(neighbors[i] == 10){//RESET) {
-        setColor(colors[10]);//RESET]);
+        setColor(colors[0]);//RESET]);
         setState(10);//RESET);
         setTimerCallback(becomeClear, 5000);
       }
