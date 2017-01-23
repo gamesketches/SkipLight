@@ -64,25 +64,25 @@ void loop() {
       bool allNeighborsClear = true;
     
       for(uint8_t i = 0; i < 6; i++) {
-          if(neighbors[i] == 10){//RESET) {
-            setState(10);//RESET);
+          if(neighbors[i] == 10){ //RESET
+            setState(10); //RESET
             setTimerCallback(becomeClear, 5000);
             setColor(colors[8]);
             break;
           }
-          else if(neighbors[i] == 9){//GAMEOVER) {
-            setState(9);//GAMEOVER);
+          else if(neighbors[i] == 9){ //GAMEOVER
+            setState(9); //GAMEOVER
           }
           else if(getState() < 8 && neighbors[i] > 0 && neighbors[i] < 4) {
             //setColor(colors[4]);
             allNeighborsClear = false;
-             if(getState() == 7){//GOAL) {
-                  if(storedColor == 0){//CLEAR) {
+             if(getState() == 7){  //GOAL
+                  if(storedColor == 0){ //CLEAR
                       storedColor = neighbors[i];
                       setTimerCallback(unStoreColor, propagationTime);
                   }
                   else if(neededColor(neighbors[i])) {
-                     setState(8);//SUCCESS);
+                     setState(8); //SUCCESS
                      setColor(colors[7]);
                      //blinkLight();
                   }
@@ -118,8 +118,8 @@ void setMyColor(uint8_t color) {
 }
 
 void becomeClear() {
-  setColor(colors[0]);//CLEAR]);
-  setState(0);//CLEAR);
+  setColor(colors[0]); //CLEAR]
+  setState(0); //CLEAR
   blinking = false;
   blinkState = true;
   storedColor = 0; // Clear
@@ -128,17 +128,17 @@ void becomeClear() {
 
 void becomeGoal() {
    //blinking = true;
-  if(getState() != 7 && getState() != 8){//GOAL && getState() != SUCCESS) {
+  if(getState() != 7 && getState() != 8){//GOAL && != SUCCESS) {
     uint32_t diceRoll = getTimer() % 3;
     targetColor = diceRoll + 4;
 
   setColor(colors[targetColor]);
-  setState(7);//GOAL);
+  setState(7); //GOAL
   }
 }
 
 void unStoreColor() {
-  storedColor = 0;//CLEAR;
+  storedColor = 0; //CLEAR
 }
 
 bool neededColor(uint8_t state) {
